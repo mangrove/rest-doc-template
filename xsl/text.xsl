@@ -76,7 +76,10 @@
 						</xsl:choose>
    			        </xsl:for-each>
 			        </xsl:variable>
-			        
+			        <xsl:if test="api:model">
+			        <xsl:text>[Model]&cr;</xsl:text>
+					<xsl:apply-templates select="api:model"/>
+			        </xsl:if>
   			        <xsl:text>URI:&tab;&tab;&tab;</xsl:text><xsl:value-of select="$baseURI" />
    			        <xsl:for-each select="api:path/node()">
 	   			       <xsl:choose>
@@ -246,6 +249,14 @@
 	<xsl:template match="api:entity">
 		<xsl:apply-templates />
 	</xsl:template>
+	
+	<xsl:template match="api:model">
+		<xsl:for-each select="api:property">
+			<xsl:text><xsl:value-of select="@name"/></xsl:text>:<xsl:text><xsl:value-of select="@type"/></xsl:text>&tab;<xsl:text><xsl:value-of select="@description"/></xsl:text>&cr;
+		</xsl:for-each>
+		<xsl:text>&cr;</xsl:text>
+	</xsl:template>
+	
 
 	<xsl:template match="api:code">
 		<xsl:text>Language: <xsl:value-of select="@language" /></xsl:text>&cr;

@@ -66,6 +66,18 @@ pre {
 	font: normal 100% monospace; 
 }
 
+table thead td{
+	margin: 0;
+	padding: 10px 20px;
+	border-bottom: 1px solid #000;
+	font-weight: bold;
+}
+
+table tbody td{
+	padding: 0px 20px;
+	border-bottom: 1px solid #bbb;
+}
+
 
 dl { padding: 0.5em; } dt { background:#fff; float: left; clear: left; padding-left:0.3em; padding-right:0.3em;  text-align: right; }  dd { margin: 0 0 0 110px; padding: 0 0 0.5em 0; }
 
@@ -103,7 +115,6 @@ dl { padding: 0.5em; } dt { background:#fff; float: left; clear: left; padding-l
 					<xsl:sort select="api:name"/>
 
 					<xsl:variable name="resourcenr"><xsl:value-of select="position()"/></xsl:variable>
-										
 					<xsl:element name="li">
 					<xsl:element name="a">
 						<xsl:attribute name="href">#<xsl:value-of select="generate-id(.)" /></xsl:attribute>
@@ -118,10 +129,10 @@ dl { padding: 0.5em; } dt { background:#fff; float: left; clear: left; padding-l
 								 <xsl:value-of select="api:name" />
 							</xsl:element>
 							</xsl:element>
-						</xsl:for-each>		
+						</xsl:for-each>
 					</ol>
 					</xsl:element>
-				</xsl:for-each>				
+				</xsl:for-each>
 				</ol>
 				
 				<xsl:apply-templates select="api:resources" />
@@ -161,7 +172,10 @@ dl { padding: 0.5em; } dt { background:#fff; float: left; clear: left; padding-l
 							</xsl:if>
    			        </xsl:for-each>
    			        </dl>
-		
+		<xsl:if test="api:model">
+		<h4>Model</h4>
+		<xsl:apply-templates select="api:model"/>
+		</xsl:if>
 		
 		<xsl:for-each select="api:operation">
 		<xsl:sort select="api:name"/>
@@ -250,7 +264,6 @@ dl { padding: 0.5em; } dt { background:#fff; float: left; clear: left; padding-l
 		</xsl:choose>
 	</xsl:template>	
 
-
 	<xsl:template match="api:entity">
 		<xsl:apply-templates />
 	</xsl:template>			
@@ -333,7 +346,24 @@ dl { padding: 0.5em; } dt { background:#fff; float: left; clear: left; padding-l
 		</dl>
 	</xsl:template>	
 
-
+	<xsl:template match="api:model">
+		<table cellspacing="0" cellpadding="0">
+			<thead>
+				<td>Property</td>
+				<td>Type</td>
+				<td>Description</td>
+			</thead>
+			<tbody>
+			<xsl:for-each select="api:property">
+				<tr>
+					<td><xsl:value-of select="@name"/></td>
+					<td><pre><xsl:value-of select="@type"/></pre></td>
+					<td><em><xsl:value-of select="@description"/></em></td>
+				</tr>
+			</xsl:for-each>
+			</tbody>
+		</table>
+	</xsl:template>
 
 	<xsl:template name="statuscode">
 		<xsl:param name="code" />
