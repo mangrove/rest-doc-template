@@ -18,6 +18,9 @@
 			<name>User</name>
 			<description>This resource represents a user. </description>
 			<path>/user/<param description="user ID">user-id</param></path>
+			<model>
+				<property name="id" type="integer" description="primary key"/>
+			</model>
 			<operation>
 				<name>Create a new user account</name>
 				<description>Creates a new user account, if user registration is enabled.</description>
